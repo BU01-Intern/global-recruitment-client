@@ -1,8 +1,16 @@
 <div class="container-fluid">
-  <div class="row flex-xl-nowrap" style="height: 100vh;">
-    <app-sidebar class="col-12 col-lg-2"></app-sidebar>
+  <div class="row flex-xl-nowrap" style="height: 100vh">
+    <app-sidebar
+      #collapse="ngbCollapse"
+      [(ngbCollapse)]="isCollapsed"
+      [horizontal]="true"
+      class="col-12 col-lg-2"
+    ></app-sidebar>
     <div class="col">
-      <app-topbar class="row"></app-topbar>
+      <app-topbar class="row" [collapse]="collapse" [isCollapsed]="isCollapsed"></app-topbar>
+      <div class="row">
+        <p>Main content goes here...</p>
+      </div>
     </div>
   </div>
 </div>
