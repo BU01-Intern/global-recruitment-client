@@ -1,7 +1,5 @@
-app-sidebar {
-  border-right: 1px solid gray;
-}
-
-app-topbar {
-  box-sizing: unset;
+.sidebar {
+  width: 270px;
+  box-shadow: 2px 0 4px lightgray;
+  z-index: 1;
 }
