@@ -1,11 +1,14 @@
 <div class="container-fluid">
   <div class="row flex-xl-nowrap" style="height: 100vh">
-    <app-sidebar
+    <div
       #collapse="ngbCollapse"
       [(ngbCollapse)]="isCollapsed"
       [horizontal]="true"
-      class="sidebar"
-    ></app-sidebar>
+      class="sidebar-container"
+    >
+      <app-sidebar class="sidebar"></app-sidebar>
+    </div>
+
     <div class="col">
       <app-topbar
         class="row"
