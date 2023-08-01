@@ -18,7 +18,7 @@
                     <td>{{categoryType.name}}</td>
                     <td>
                         <i role="button" class="bi bi-pen m-2"></i>
-                        <i role="button" class="bi bi-trash3 m-2"></i>
+                        <i role="button" class="bi bi-trash3 m-2" (click)="deleteCategoryType(categoryType.id)"></i>
                     </td>
                 </tr>
             </tbody>
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="text-center pb-3">
-                <button type="button" class="btn btn-primary center" (click)="filterCategory(code.value,name.value)">
+                <button type="button" class="btn btn-primary center"  (click)="searchCategories()">
                     <i class="bi bi-search"></i>
                     Tìm kiếm
                 </button>
@@ -82,7 +82,7 @@
                 </thead>
                 <tbody>
                     <tr
-                        *ngFor="let category of categories  | slice: (page-1) * pageSize : page * pageSize; let currentElementIndex=index;">
+                        *ngFor="let category of filteredCategories  | slice: (page-1) * pageSize : page * pageSize; let currentElementIndex=index;">
                         <th class="text-center">{{currentElementIndex+1}}</th>
                         <td role="button" class="text-center">
                             <i class="bi bi-pencil-square"></i>

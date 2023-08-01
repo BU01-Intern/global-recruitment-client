@@ -12,7 +12,7 @@ import { Category } from './models/category.model';
 export class CategoryComponent implements OnInit {
 
   constructor(
-    private categoryService: CategoryService) {}
+    private categoryService: CategoryService) { }
 
   ngOnInit(): void {
     this.getDataCategory();
@@ -26,19 +26,30 @@ export class CategoryComponent implements OnInit {
   categories: Category[] = []
   filterCategories: Category[] = this.categories;
 
-  filterCategory(code: string, name: string) {
-    if (code === "" && name === "") {
-      this.filterCategories = this.categories;
+  // Tìm kiếm
+  searchCategoryName: string = '';
+  searchCategoryCode: string = '';
+  searchValidity: string = 'all';
+  filteredCategories: any[] = [];
+  // ...
+
+  searchCategories() {
+    // Lọc danh mục dựa trên tên và mã danh mục
+    const filteredCategories = this.categories.filter((category) => {
+      const nameMatch = category.name.toLowerCase().includes(this.searchCategoryName.toLowerCase());
+      const codeMatch = category.code.toLowerCase().includes(this.searchCategoryCode.toLowerCase());
+      return nameMatch || codeMatch;
+    });
+
+    // Lọc danh mục dựa trên trạng thái hiệu lực
+    const now = new Date();
+    if (this.searchValidity === 'valid') {
+      this.filteredCategories = filteredCategories.filter((category) => new Date(category.expired_date) >= now);
+    } else if (this.searchValidity === 'expired') {
+      this.filteredCategories = filteredCategories.filter((category) => new Date(category.expired_date) < now);
+    } else {
+      this.filteredCategories = filteredCategories;
     }
-    else {
-        this.filterCategories = this.categories.filter(cats => {
-        cats?.name.toLowerCase().includes(name.toLowerCase()) && cats?.code.toLowerCase().includes(code.toLowerCase())
-        console.log(cats)
-      })
-    }
-    console.log(this.filterCategories)
-    console.log("clicked")
-    console.log(code + " " + name)
   }
 
   getDataCategoryType() {
@@ -55,7 +66,7 @@ export class CategoryComponent implements OnInit {
   getDataCategory() {
     this.categoryService.getAllCategory().subscribe(data => {
       this.categories = data;
-      // this.searchCategories();
+      this.searchCategories();
     });
   }
 
@@ -69,6 +80,19 @@ export class CategoryComponent implements OnInit {
       (error) => {
         console.error('Lỗi khi xóa', error);
         this.getDataCategory();
+      }
+    );
+  }
+
+  deleteCategoryType(id: number) {
+    this.categoryService.deleteCategoryType(id).subscribe(
+      () => {
+        console.log('Xóa thành công');
+        this.getDataCategoryType();
+      },
+      (error) => {
+        console.error('Lỗi khi xóa', error);
+        this.getDataCategoryType();
       }
     );
   }
