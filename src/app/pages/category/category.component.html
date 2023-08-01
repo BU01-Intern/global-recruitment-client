@@ -84,11 +84,14 @@
                     <tr
                         *ngFor="let category of categories  | slice: (page-1) * pageSize : page * pageSize; let currentElementIndex=index;">
                         <th class="text-center">{{currentElementIndex+1}}</th>
-                        <td role="button" class="text-center"><i class="bi bi-pencil-square"></i></td>
+                        <td role="button" class="text-center">
+                            <i class="bi bi-pencil-square"></i>
+                            <i role="button" class="bi bi-trash3 m-2" (click)="deleteCategory(category.id)"></i>
+                        </td>
                         <td class="text-center">{{category.code}}</td>
                         <td class="text-center">{{category.name}}</td>
-                        <td class="text-center">{{category.effectiveDate}}</td>
-                        <td class="text-center">{{category.expiriedDate}}</td>
+                        <td class="text-center">{{category.effective_date}}</td>
+                        <td class="text-center">{{category.expired_date}}</td>
                     </tr>
                 </tbody>
             </table>

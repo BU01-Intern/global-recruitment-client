@@ -1,27 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CategoryType } from './models/category-type.model';
+import { HttpClient } from '@angular/common/http';
+import { CategoryService } from './category.service';
+import { Category } from './models/category.model';
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent {
+export class CategoryComponent implements OnInit {
+
+  constructor(
+    private categoryService: CategoryService) {}
+
+  ngOnInit(): void {
+    this.getDataCategory();
+    this.getDataCategoryType();
+  }
+
   public page = 1;
   public pageSize = 5;
-  categoryTypes: CategoryType[] = [
-    { name: 'Category 1', code: 'cat1' },
-    { name: 'Category 2', code: 'cat2' },
-    { name: 'Category 3', code: 'cat3' },
-  ]
 
-  categories: Category[] = [
-    { name: 'Categor d đ  d d dy 1', code: 'cat1', effectiveDate: null, expiriedDate: null },
-    { name: 'Category 2', code: 'cat2', effectiveDate: null, expiriedDate: null },
-    { name: 'Category 3', code: 'cat3', effectiveDate: null, expiriedDate: null },
-    { name: 'Category 4', code: 'cat4', effectiveDate: null, expiriedDate: null },
-    { name: 'Category 5', code: 'cat5', effectiveDate: null, expiriedDate: null },
-  ]
-
+  categoryTypes: CategoryType[] = [];
+  categories: Category[] = []
   filterCategories: Category[] = this.categories;
 
   filterCategory(code: string, name: string) {
@@ -38,16 +40,37 @@ export class CategoryComponent {
     console.log("clicked")
     console.log(code + " " + name)
   }
+
+  getDataCategoryType() {
+    this.categoryService.getAllCategoryTypes().subscribe(
+      (data) => {
+        this.categoryTypes = data;
+      },
+      (error) => {
+        console.error('Err call API category type', error);
+      }
+    );
+  }
+
+  getDataCategory() {
+    this.categoryService.getAllCategory().subscribe(data => {
+      this.categories = data;
+      // this.searchCategories();
+    });
+  }
+
+  deleteCategory(id: number) {
+    this.categoryService.deleteCategory(id).subscribe(
+      () => {
+        console.log('Xóa thành công');
+        this.getDataCategory();
+
+      },
+      (error) => {
+        console.error('Lỗi khi xóa', error);
+        this.getDataCategory();
+      }
+    );
+  }
 }
 
-class CategoryType {
-  name!: string;
-  code!: string;
-}
-
-class Category {
-  name!: string;
-  code!: string;
-  effectiveDate: Date | null = null;
-  expiriedDate: Date | null = null;
-}
