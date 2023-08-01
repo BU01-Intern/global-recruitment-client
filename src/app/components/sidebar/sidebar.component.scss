@@ -1,0 +1,21 @@
+.logo {
+  width: 270px - 2*12px;
+  margin: 20px 0px;
+  padding: 0 30px;
+}
+
+.nav-pills {
+  width: 270px - 2*12px;
+}
+
+.nav-pills .nav-link {
+  font-size: 14px;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #d8e8fd;
+}
+
+.nav-pills .nav-link {
+  color: black;
+}
