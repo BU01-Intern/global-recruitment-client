@@ -1,0 +1,99 @@
+<div class="d-flex justify-content-around mt-4">
+    <div class="border col-md-4 text-center rounded shadow vh-100">
+        <label for="" class="mb-4 my-1 py-2 border-bottom w-100">LOẠI DANH MỤC</label>
+        <form class="mb-2 mx-4">
+            <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+        </form>
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Tên loại danh mục</th>
+                    <th colspan="2">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let categoryType of categoryTypes; let currentElementIndex=index;">
+                    <th>{{currentElementIndex + 1}}</th>
+                    <td>{{categoryType.name}}</td>
+                    <td>
+                        <i role="button" class="bi bi-pen m-2"></i>
+                        <i role="button" class="bi bi-trash3 m-2"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <div class="col-xl-12 mb-md-4 border rounded shadow">
+            <label for="" class="mb-4 my-1 py-2 border-bottom w-100">TÌM KIẾM DANH MỤC</label>
+            <form class="mb-4 pb-4 border-bottom">
+                <div class="d-flex">
+                    <div class="form-group mx-2 d-flex">
+                        <label for="" class="col-sm-5 col-form-label d-inline">Mã danh mục</label>
+                        <div class="col-sm-7 d-inline">
+                            <input type="text" class="form-control" #code>
+                        </div>
+                    </div>
+                    <div class="form-group mx-2 d-flex">
+                        <label for="" class="col-sm-5 col-form-label d-inline">Tên danh mục</label>
+                        <div class="col-sm-7 d-inline">
+                            <input type="text" class="form-control" #name>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="mb-4">
+                <div class="d-inline mx-4">Trạng thái</div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                        value="option1" checked>
+                    <label class="form-check-label" for="inlineRadio1">Tất cả</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                        value="option2">
+                    <label class="form-check-label" for="inlineRadio2">Hiệu lực</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+                        value="option3">
+                    <label class="form-check-label" for="inlineRadio3">Hết hiệu lực</label>
+                </div>
+            </div>
+            <div class="text-center pb-3">
+                <button type="button" class="btn btn-primary center" (click)="filterCategory(code.value,name.value)">
+                    <i class="bi bi-search"></i>
+                    Tìm kiếm
+                </button>
+            </div>
+        </div>
+        <div class="rounded shadow">
+            <table class="table table-hover table-bordered">
+                <thead class="bg-primary">
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Thao tác</th>
+                        <th scope="col">Mã danh mục</th>
+                        <th scope="col">Tên danh mục</th>
+                        <th scope="col">Ngày hiệu lực</th>
+                        <th scope="col">Ngày hết hiệu lực</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let category of categories  | slice: (page-1) * pageSize : page * pageSize; let currentElementIndex=index;">
+                        <th class="text-center">{{currentElementIndex+1}}</th>
+                        <td role="button" class="text-center"><i class="bi bi-pencil-square"></i></td>
+                        <td class="text-center">{{category.code}}</td>
+                        <td class="text-center">{{category.name}}</td>
+                        <td class="text-center">{{category.effectiveDate}}</td>
+                        <td class="text-center">{{category.expiriedDate}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ngb-pagination class="d-flex justify-content-center" [(page)]="page" [pageSize]="pageSize"
+            [collectionSize]="categories.length"></ngb-pagination>
+        </div>
+    </div>
+</div>
